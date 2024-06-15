@@ -1,0 +1,44 @@
+<!-- ChatBotpost/templates/chatbot/chat.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script>
+        async function sendQuestion() {
+            const question = document.getElementById('question').value;
+            const response = await fetch('/chatbot/', {  // URLにスラッシュを追加
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `question=${encodeURIComponent(question)}`
+            });
+            const data = await response.json();
+            
+            // 質問と回答を表示する
+            const chatLog = document.getElementById('chat-log');
+            const questionElem = document.createElement('p');
+            questionElem.innerHTML = `<strong>You:</strong> ${question}`;
+            const answerElem = document.createElement('p');
+            answerElem.innerHTML = `<strong>Bot:</strong> ${data.answer}`;
+            chatLog.appendChild(questionElem);
+            chatLog.appendChild(answerElem);
+
+            // 入力フィールドをクリア
+            document.getElementById('question').value = '';
+        }
+    </script>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <div id="chat-log"></div> <!-- 質問と回答を表示するエリア -->
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" id="question" placeholder="Ask a question">
+        <button type="button" onclick="sendQuestion()">Send</button>
+    </form>
+</body>
+</html>
