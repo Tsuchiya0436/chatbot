@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-wszt!(bdnk3v*0%pu8q55ap(2o(i*hujrzx7=9z3q^+gkx_h2z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [    
+    '*',
+    '.vercel.app']
 
 
 # Application definition
@@ -105,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -123,3 +125,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+{
+    "src": "config/wsgi.py",
+    "use": "@vercel/python",
+    "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+    }
+}
